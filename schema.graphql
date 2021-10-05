@@ -1,0 +1,639 @@
+﻿schema {
+  query: Query
+  mutation: Mutation
+}
+
+type Mutation {
+  createProjectTemplate(input: CreateProjectTemplateInput!): projectTemplate
+  createProjects(input: CreateProjectsInput!): projects
+  createUser(input: CreateUserInput!): User
+  deleteProjectTemplate(input: DeleteProjectTemplateInput!): projectTemplate
+  deleteProjects(input: DeleteProjectsInput!): projects
+  updateProjectTemplate(input: UpdateProjectTemplateInput!): projectTemplate
+  updateProjects(input: UpdateProjectsInput!): projects
+  updateUser(input: UpdateUserInput!): User
+}
+
+type Query {
+  getIdentity: String
+  getProject(id: ID!, uid: ID!): projects
+  getProjectTemplate(id: ID!): projectTemplate
+  getProjects(id: ID!): projects
+  getUploadURL(
+    assetType: assetType!
+    fileType: fileType!
+    projectId: ID!
+  ): String
+  getUser: User
+  listProjectTemplates(
+    filter: TableProjectTemplateFilterInput
+    limit: Int
+    nextToken: String
+  ): projectTemplateConnection
+  listProjects(
+    filter: TableProjectsFilterInput
+    limit: Int
+    nextToken: String
+  ): projectsConnection
+}
+
+type User {
+  available_templates: String
+  email: String!
+  id: ID!
+  name: String
+}
+
+type UserConnection {
+  items: [User]
+  nextToken: String
+}
+
+type projectTemplate {
+  colorEndScreenMain: Boolean
+  colorEndScreenSub: Boolean
+  colorExperienceScreenHint: Boolean
+  colorExperienceScreenMain: Boolean
+  colorExperienceScreenSub: Boolean
+  colorFontMain: Boolean
+  colorFontSub: Boolean
+  colorFotoScreenMain: Boolean
+  colorFotoScreenSub: Boolean
+  colorLoadingScreenMain: Boolean
+  colorLoadingScreenSub: Boolean
+  colorStartScreenMain: Boolean
+  colorStartScreenSub: Boolean
+  fontLoadingHeading: Boolean
+  fontLoadingMain: Boolean
+  id: ID!
+  imageEndScreenBackground: Boolean
+  imageEndScreenLogo: Boolean
+  imageExperienceScreenAvatar: Boolean
+  imageExperienceScreenLogo: Boolean
+  imageFotoScreenScreenBackground: Boolean
+  imageFotoScreenScreenLogo: Boolean
+  imageLoadingScreenBackground: Boolean
+  imageLoadingScreenLogo: Boolean
+  imageStartScreenBackground: Boolean
+  imageStartScreenLogo: Boolean
+  linkEndScreenButtonOne: Boolean
+  linkEndScreenButtonThree: Boolean
+  linkEndScreenButtonTwo: Boolean
+  picture: String!
+  projectExperienceLayout: Boolean
+  projectLink: Boolean
+  projectName: Boolean
+  projectStatus: Boolean
+  projectType: Boolean
+  projectUrl: Boolean
+  textEndScreenButtonOne: Boolean
+  textEndScreenButtonThree: Boolean
+  textEndScreenButtonTwo: Boolean
+  textEndScreenStatus: Boolean
+  textExperienceScreenFotoFrameStatus: Boolean
+  textExperienceScreenHint: Boolean
+  textExperienceScreenImprintContent: Boolean
+  textExperienceScreenImprintHeading: Boolean
+  textExperienceScreenInstructionsContentOne: Boolean
+  textExperienceScreenInstructionsContentThree: Boolean
+  textExperienceScreenInstructionsContentTwo: Boolean
+  textExperienceScreenInstructionsHeading: Boolean
+  textExperienceScreenLogoStatus: Boolean
+  textFotoScreenHint: Boolean
+  textFotoScreenStatus: Boolean
+  textLoadingScreenHint: Boolean
+  textLoadingScreenStatus: Boolean
+  textStartScreenButton: Boolean
+  textStartScreenHeading: Boolean
+  textStartScreenStatus: Boolean
+  textStartScreenSubheading: Boolean
+  title: String!
+}
+
+type projectTemplateConnection {
+  items: [projectTemplate]
+  nextToken: String
+}
+
+type projects {
+  colorEndScreenMain: String
+  colorEndScreenSub: String
+  colorExperienceScreenHint: String
+  colorExperienceScreenMain: String
+  colorExperienceScreenSub: String
+  colorFontMain: String
+  colorFontSub: String
+  colorFotoScreenMain: String
+  colorFotoScreenSub: String
+  colorLoadingScreenMain: String
+  colorLoadingScreenSub: String
+  colorStartScreenMain: String
+  colorStartScreenSub: String
+  createdAt: AWSTimestamp
+  fontLoadingHeading: String
+  fontLoadingMain: String
+  id: ID!
+  imageEndScreenBackground: String
+  imageEndScreenLogo: String
+  imageExperienceScreenAvatar: String
+  imageExperienceScreenLogo: String
+  imageFotoScreenScreenBackground: String
+  imageFotoScreenScreenLogo: String
+  imageLoadingScreenBackground: String
+  imageLoadingScreenLogo: String
+  imageStartScreenBackground: String
+  imageStartScreenLogo: String
+  layoutActiveEndScreenStatus: Boolean
+  layoutActiveExperienceScreenFotoFrameStatus: Boolean
+  layoutActiveExperienceScreenLogoStatus: Boolean
+  layoutActiveFotoScreenStatus: Boolean
+  layoutActiveLoadingScreenStatus: Boolean
+  layoutActiveStartScreenStatus: Boolean
+  linkEndScreenButtonOne: String
+  linkEndScreenButtonThree: String
+  linkEndScreenButtonTwo: String
+  paymentIntentId: String
+  projectExperienceLayout: String
+  projectLink: String
+  projectName: String
+  projectStatus: String
+  projectType: String
+  projectUrl: String
+  templateId: String
+  textEndScreenButtonOne: String
+  textEndScreenButtonThree: String
+  textEndScreenButtonTwo: String
+  textEndScreenStatus: String
+  textExperienceScreenFotoFrameStatus: String
+  textExperienceScreenHint: String
+  textExperienceScreenImprintContent: String
+  textExperienceScreenImprintHeading: String
+  textExperienceScreenInstructionsContentOne: String
+  textExperienceScreenInstructionsContentThree: String
+  textExperienceScreenInstructionsContentTwo: String
+  textExperienceScreenInstructionsHeading: String
+  textExperienceScreenLogoStatus: String
+  textFotoScreenHint: String
+  textFotoScreenStatus: String
+  textLoadingScreenHint: String
+  textLoadingScreenStatus: String
+  textStartScreenButton: String
+  textStartScreenHeading: String
+  textStartScreenStatus: String
+  textStartScreenSubheading: String
+  updatedAt: AWSTimestamp
+}
+
+type projectsConnection {
+  items: [projects]
+  nextToken: String
+}
+
+enum assetType {
+  fontLoadingHeading
+  fontLoadingMain
+  imageEndScreenBackground
+  imageEndScreenLogo
+  imageExperienceScreenAvatar
+  imageExperienceScreenLogo
+  imageFotoScreenScreenBackground
+  imageFotoScreenScreenLogo
+  imageLoadingScreenBackground
+  imageLoadingScreenLogo
+  imageStartScreenBackground
+  imageStartScreenLogo
+}
+
+enum fileType {
+  jpg
+  otf
+  png
+  ttf
+}
+
+input CreateProjectTemplateInput {
+  colorEndScreenMain: Boolean
+  colorEndScreenSub: Boolean
+  colorExperienceScreenHint: Boolean
+  colorExperienceScreenMain: Boolean
+  colorExperienceScreenSub: Boolean
+  colorFontMain: Boolean
+  colorFontSub: Boolean
+  colorFotoScreenMain: Boolean
+  colorFotoScreenSub: Boolean
+  colorLoadingScreenMain: Boolean
+  colorLoadingScreenSub: Boolean
+  colorStartScreenMain: Boolean
+  colorStartScreenSub: Boolean
+  fontLoadingHeading: Boolean
+  fontLoadingMain: Boolean
+  imageEndScreenBackground: Boolean
+  imageEndScreenLogo: Boolean
+  imageExperienceScreenAvatar: Boolean
+  imageExperienceScreenLogo: Boolean
+  imageFotoScreenScreenBackground: Boolean
+  imageFotoScreenScreenLogo: Boolean
+  imageLoadingScreenBackground: Boolean
+  imageLoadingScreenLogo: Boolean
+  imageStartScreenBackground: Boolean
+  imageStartScreenLogo: Boolean
+  linkEndScreenButtonOne: Boolean
+  linkEndScreenButtonThree: Boolean
+  linkEndScreenButtonTwo: Boolean
+  picture: String!
+  projectExperienceLayout: Boolean
+  projectLink: Boolean
+  projectName: Boolean
+  projectStatus: Boolean
+  projectType: Boolean
+  projectUrl: Boolean
+  textEndScreenButtonOne: Boolean
+  textEndScreenButtonThree: Boolean
+  textEndScreenButtonTwo: Boolean
+  textEndScreenStatus: Boolean
+  textExperienceScreenFotoFrameStatus: Boolean
+  textExperienceScreenHint: Boolean
+  textExperienceScreenImprintContent: Boolean
+  textExperienceScreenImprintHeading: Boolean
+  textExperienceScreenInstructionsContentOne: Boolean
+  textExperienceScreenInstructionsContentThree: Boolean
+  textExperienceScreenInstructionsContentTwo: Boolean
+  textExperienceScreenInstructionsHeading: Boolean
+  textExperienceScreenLogoStatus: Boolean
+  textFotoScreenHint: Boolean
+  textFotoScreenStatus: Boolean
+  textLoadingScreenHint: Boolean
+  textLoadingScreenStatus: Boolean
+  textStartScreenButton: Boolean
+  textStartScreenHeading: Boolean
+  textStartScreenStatus: Boolean
+  textStartScreenSubheading: Boolean
+  title: String!
+}
+
+input CreateProjectsInput {
+  colorEndScreenMain: String
+  colorEndScreenSub: String
+  colorExperienceScreenHint: String
+  colorExperienceScreenMain: String
+  colorExperienceScreenSub: String
+  colorFontMain: String
+  colorFontSub: String
+  colorFotoScreenMain: String
+  colorFotoScreenSub: String
+  colorLoadingScreenMain: String
+  colorLoadingScreenSub: String
+  colorStartScreenMain: String
+  colorStartScreenSub: String
+  fontLoadingHeading: String
+  fontLoadingMain: String
+  imageEndScreenBackground: String
+  imageEndScreenLogo: String
+  imageExperienceScreenAvatar: String
+  imageExperienceScreenLogo: String
+  imageFotoScreenScreenBackground: String
+  imageFotoScreenScreenLogo: String
+  imageLoadingScreenBackground: String
+  imageLoadingScreenLogo: String
+  imageStartScreenBackground: String
+  imageStartScreenLogo: String
+  layoutActiveEndScreenStatus: Boolean
+  layoutActiveExperienceScreenFotoFrameStatus: Boolean
+  layoutActiveExperienceScreenLogoStatus: Boolean
+  layoutActiveFotoScreenStatus: Boolean
+  layoutActiveLoadingScreenStatus: Boolean
+  layoutActiveStartScreenStatus: Boolean
+  linkEndScreenButtonOne: String
+  linkEndScreenButtonThree: String
+  linkEndScreenButtonTwo: String
+  paymentIntentId: String
+  projectExperienceLayout: String
+  projectLink: String
+  projectName: String
+  projectStatus: String
+  projectType: String
+  projectUrl: String
+  templateId: String
+  textEndScreenButtonOne: String
+  textEndScreenButtonThree: String
+  textEndScreenButtonTwo: String
+  textEndScreenStatus: String
+  textExperienceScreenFotoFrameStatus: String
+  textExperienceScreenHint: String
+  textExperienceScreenImprintContent: String
+  textExperienceScreenImprintHeading: String
+  textExperienceScreenInstructionsContentOne: String
+  textExperienceScreenInstructionsContentThree: String
+  textExperienceScreenInstructionsContentTwo: String
+  textExperienceScreenInstructionsHeading: String
+  textExperienceScreenLogoStatus: String
+  textFotoScreenHint: String
+  textFotoScreenStatus: String
+  textLoadingScreenHint: String
+  textLoadingScreenStatus: String
+  textStartScreenButton: String
+  textStartScreenHeading: String
+  textStartScreenStatus: String
+  textStartScreenSubheading: String
+}
+
+input CreateUserInput {
+  available_templates: String
+  email: String!
+  name: String
+}
+
+input DeleteProjectTemplateInput {
+  id: ID!
+}
+
+input DeleteProjectsInput {
+  id: ID!
+}
+
+input TableBooleanFilterInput {
+  eq: Boolean
+  ne: Boolean
+}
+
+input TableFloatFilterInput {
+  between: [Float]
+  contains: Float
+  eq: Float
+  ge: Float
+  gt: Float
+  le: Float
+  lt: Float
+  ne: Float
+  notContains: Float
+}
+
+input TableIDFilterInput {
+  beginsWith: ID
+  between: [ID]
+  contains: ID
+  eq: ID
+  ge: ID
+  gt: ID
+  le: ID
+  lt: ID
+  ne: ID
+  notContains: ID
+}
+
+input TableIntFilterInput {
+  between: [Int]
+  contains: Int
+  eq: Int
+  ge: Int
+  gt: Int
+  le: Int
+  lt: Int
+  ne: Int
+  notContains: Int
+}
+
+input TableProjectTemplateFilterInput {
+  colorEndScreenMain: TableBooleanFilterInput
+  colorEndScreenSub: TableBooleanFilterInput
+  colorExperienceScreenHint: TableBooleanFilterInput
+  colorExperienceScreenMain: TableBooleanFilterInput
+  colorExperienceScreenSub: TableBooleanFilterInput
+  colorFontMain: TableBooleanFilterInput
+  colorFontSub: TableBooleanFilterInput
+  colorFotoScreenMain: TableBooleanFilterInput
+  colorFotoScreenSub: TableBooleanFilterInput
+  colorLoadingScreenMain: TableBooleanFilterInput
+  colorLoadingScreenSub: TableBooleanFilterInput
+  colorStartScreenMain: TableBooleanFilterInput
+  colorStartScreenSub: TableBooleanFilterInput
+  fontLoadingHeading: TableBooleanFilterInput
+  fontLoadingMain: TableBooleanFilterInput
+  id: TableIDFilterInput
+  imageEndScreenBackground: TableBooleanFilterInput
+  imageEndScreenLogo: TableBooleanFilterInput
+  imageExperienceScreenAvatar: TableBooleanFilterInput
+  imageExperienceScreenLogo: TableBooleanFilterInput
+  imageFotoScreenScreenBackground: TableBooleanFilterInput
+  imageFotoScreenScreenLogo: TableBooleanFilterInput
+  imageLoadingScreenBackground: TableBooleanFilterInput
+  imageLoadingScreenLogo: TableBooleanFilterInput
+  imageStartScreenBackground: TableBooleanFilterInput
+  imageStartScreenLogo: TableBooleanFilterInput
+  linkEndScreenButtonOne: TableBooleanFilterInput
+  linkEndScreenButtonThree: TableBooleanFilterInput
+  linkEndScreenButtonTwo: TableBooleanFilterInput
+  picture: TableStringFilterInput
+  projectExperienceLayout: TableBooleanFilterInput
+  projectLink: TableBooleanFilterInput
+  projectName: TableBooleanFilterInput
+  projectStatus: TableBooleanFilterInput
+  projectType: TableBooleanFilterInput
+  projectUrl: TableBooleanFilterInput
+  textEndScreenButtonOne: TableBooleanFilterInput
+  textEndScreenButtonThree: TableBooleanFilterInput
+  textEndScreenButtonTwo: TableBooleanFilterInput
+  textEndScreenStatus: TableBooleanFilterInput
+  textExperienceScreenFotoFrameStatus: TableBooleanFilterInput
+  textExperienceScreenHint: TableBooleanFilterInput
+  textExperienceScreenImprintContent: TableBooleanFilterInput
+  textExperienceScreenImprintHeading: TableBooleanFilterInput
+  textExperienceScreenInstructionsContentOne: TableBooleanFilterInput
+  textExperienceScreenInstructionsContentThree: TableBooleanFilterInput
+  textExperienceScreenInstructionsContentTwo: TableBooleanFilterInput
+  textExperienceScreenInstructionsHeading: TableBooleanFilterInput
+  textExperienceScreenLogoStatus: TableBooleanFilterInput
+  textFotoScreenHint: TableBooleanFilterInput
+  textFotoScreenStatus: TableBooleanFilterInput
+  textLoadingScreenHint: TableBooleanFilterInput
+  textLoadingScreenStatus: TableBooleanFilterInput
+  textStartScreenButton: TableBooleanFilterInput
+  textStartScreenHeading: TableBooleanFilterInput
+  textStartScreenStatus: TableBooleanFilterInput
+  textStartScreenSubheading: TableBooleanFilterInput
+  title: TableStringFilterInput
+}
+
+input TableProjectsFilterInput {
+  colorExperienceHint: TableStringFilterInput
+  colorExperienceMain: TableStringFilterInput
+  colorExperienceSub: TableStringFilterInput
+  colorLoadingSub: TableStringFilterInput
+  colorMain: TableStringFilterInput
+  fontLoadingHeading: TableStringFilterInput
+  fontLoadingMain: TableStringFilterInput
+  id: TableIDFilterInput
+  imageAvatar: TableStringFilterInput
+  imageEndScreen: TableStringFilterInput
+  imageExperienceScreen: TableStringFilterInput
+  imageFotoScreen: TableStringFilterInput
+  imageLoadingScreen: TableStringFilterInput
+  imageStartScreen: TableStringFilterInput
+  projectExperienceLayout: TableStringFilterInput
+  projectLink: TableStringFilterInput
+  projectName: TableStringFilterInput
+  projectStatus: TableStringFilterInput
+  projectType: TableStringFilterInput
+  projectUrl: TableStringFilterInput
+  textExperienceHint: TableStringFilterInput
+  textExperienceImprint: TableStringFilterInput
+  textExperienceInstructions: TableStringFilterInput
+  textLoadingScreenHint: TableStringFilterInput
+  textStartScreenHeading: TableStringFilterInput
+  textStartScreenSubheading: TableStringFilterInput
+  userId: TableStringFilterInput
+}
+
+input TableStringFilterInput {
+  beginsWith: String
+  between: [String]
+  contains: String
+  eq: String
+  ge: String
+  gt: String
+  le: String
+  lt: String
+  ne: String
+  notContains: String
+}
+
+input TableUserFilterInput {
+  available_templates: TableStringFilterInput
+  email: TableStringFilterInput
+  id: TableIDFilterInput
+  name: TableStringFilterInput
+}
+
+input UpdateProjectTemplateInput {
+  colorEndScreenMain: Boolean
+  colorEndScreenSub: Boolean
+  colorExperienceScreenHint: Boolean
+  colorExperienceScreenMain: Boolean
+  colorExperienceScreenSub: Boolean
+  colorFontMain: Boolean
+  colorFontSub: Boolean
+  colorFotoScreenMain: Boolean
+  colorFotoScreenSub: Boolean
+  colorLoadingScreenMain: Boolean
+  colorLoadingScreenSub: Boolean
+  colorStartScreenMain: Boolean
+  colorStartScreenSub: Boolean
+  fontLoadingHeading: Boolean
+  fontLoadingMain: Boolean
+  id: ID!
+  imageEndScreenBackground: Boolean
+  imageEndScreenLogo: Boolean
+  imageExperienceScreenAvatar: Boolean
+  imageExperienceScreenLogo: Boolean
+  imageFotoScreenScreenBackground: Boolean
+  imageFotoScreenScreenLogo: Boolean
+  imageLoadingScreenBackground: Boolean
+  imageLoadingScreenLogo: Boolean
+  imageStartScreenBackground: Boolean
+  imageStartScreenLogo: Boolean
+  linkEndScreenButtonOne: Boolean
+  linkEndScreenButtonThree: Boolean
+  linkEndScreenButtonTwo: Boolean
+  picture: String
+  projectExperienceLayout: Boolean
+  projectLink: Boolean
+  projectName: Boolean
+  projectStatus: Boolean
+  projectType: Boolean
+  projectUrl: Boolean
+  textEndScreenButtonOne: Boolean
+  textEndScreenButtonThree: Boolean
+  textEndScreenButtonTwo: Boolean
+  textEndScreenStatus: Boolean
+  textExperienceScreenFotoFrameStatus: Boolean
+  textExperienceScreenHint: Boolean
+  textExperienceScreenImprintContent: Boolean
+  textExperienceScreenImprintHeading: Boolean
+  textExperienceScreenInstructionsContentOne: Boolean
+  textExperienceScreenInstructionsContentThree: Boolean
+  textExperienceScreenInstructionsContentTwo: Boolean
+  textExperienceScreenInstructionsHeading: Boolean
+  textExperienceScreenLogoStatus: Boolean
+  textFotoScreenHint: Boolean
+  textFotoScreenStatus: Boolean
+  textLoadingScreenHint: Boolean
+  textLoadingScreenStatus: Boolean
+  textStartScreenButton: Boolean
+  textStartScreenHeading: Boolean
+  textStartScreenStatus: Boolean
+  textStartScreenSubheading: Boolean
+  title: String
+}
+
+input UpdateProjectsInput {
+  colorEndScreenMain: String
+  colorEndScreenSub: String
+  colorExperienceScreenHint: String
+  colorExperienceScreenMain: String
+  colorExperienceScreenSub: String
+  colorFontMain: String
+  colorFontSub: String
+  colorFotoScreenMain: String
+  colorFotoScreenSub: String
+  colorLoadingScreenMain: String
+  colorLoadingScreenSub: String
+  colorStartScreenMain: String
+  colorStartScreenSub: String
+  fontLoadingHeading: String
+  fontLoadingMain: String
+  id: ID!
+  imageEndScreenBackground: String
+  imageEndScreenLogo: String
+  imageExperienceScreenAvatar: String
+  imageExperienceScreenLogo: String
+  imageFotoScreenScreenBackground: String
+  imageFotoScreenScreenLogo: String
+  imageLoadingScreenBackground: String
+  imageLoadingScreenLogo: String
+  imageStartScreenBackground: String
+  imageStartScreenLogo: String
+  layoutActiveEndScreenStatus: Boolean
+  layoutActiveExperienceScreenFotoFrameStatus: Boolean
+  layoutActiveExperienceScreenLogoStatus: Boolean
+  layoutActiveFotoScreenStatus: Boolean
+  layoutActiveLoadingScreenStatus: Boolean
+  layoutActiveStartScreenStatus: Boolean
+  linkEndScreenButtonOne: String
+  linkEndScreenButtonThree: String
+  linkEndScreenButtonTwo: String
+  paymentIntentId: String
+  projectExperienceLayout: String
+  projectLink: String
+  projectName: String
+  projectStatus: String
+  projectType: String
+  projectUrl: String
+  templateId: String
+  textEndScreenButtonOne: String
+  textEndScreenButtonThree: String
+  textEndScreenButtonTwo: String
+  textEndScreenStatus: String
+  textExperienceScreenFotoFrameStatus: String
+  textExperienceScreenHint: String
+  textExperienceScreenImprintContent: String
+  textExperienceScreenImprintHeading: String
+  textExperienceScreenInstructionsContentOne: String
+  textExperienceScreenInstructionsContentThree: String
+  textExperienceScreenInstructionsContentTwo: String
+  textExperienceScreenInstructionsHeading: String
+  textExperienceScreenLogoStatus: String
+  textFotoScreenHint: String
+  textFotoScreenStatus: String
+  textLoadingScreenHint: String
+  textLoadingScreenStatus: String
+  textStartScreenButton: String
+  textStartScreenHeading: String
+  textStartScreenStatus: String
+  textStartScreenSubheading: String
+}
+
+input UpdateUserInput {
+  available_templates: String
+  email: String
+  name: String
+}
