@@ -1,4 +1,3 @@
-import { client } from "@/queryClient";
 import { GetServerSidePropsContext } from "next";
 
 import { ROUTES } from "../routes";
@@ -14,8 +13,6 @@ export const checkAuth = async ({ req }: GetServerSidePropsContext) => {
       },
     };
   }
-
-  client.setHeader("authorization", jwtToken);
 
   return {
     props: {},

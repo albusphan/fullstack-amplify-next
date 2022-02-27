@@ -13,7 +13,7 @@ export const AuthLayout: React.FC<Props> = ({ children, title, image }) => {
   const [isDesktop] = useMediaQuery("(min-width: 1024px)");
 
   return (
-    <Flex h="100vh">
+    <Flex h="100vh" w="100%">
       <PageHead title={title} />
       <Logo
         isLight={!!image && isDesktop}
