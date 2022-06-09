@@ -1,4 +1,4 @@
-import {
+import React, {
   createContext,
   Dispatch,
   SetStateAction,
@@ -12,8 +12,8 @@ import {
   CognitoUserPool,
   CognitoUserSession,
 } from "amazon-cognito-identity-js";
-import Cookies from "js-cookie";
 import { AUTH_ROUTES, ROUTES } from "@/routes";
+import { initAxios } from "@/utils/axiosInstance";
 
 export const UserPool = new CognitoUserPool({
   UserPoolId: process.env.NEXT_PUBLIC_USER_POOL || "",
@@ -42,7 +42,6 @@ export const currentSession = () =>
         user.getSession(
           (error: Error | null, session: CognitoUserSession | null) => {
             if (session && session.isValid()) {
-              Cookies.set("jwtToken", session.getAccessToken().getJwtToken());
               resolve({ session, user });
             } else {
               reject(Error || commonErr);
@@ -78,7 +77,7 @@ export const getUserAttributes = (
     );
   });
 
-export const AuthProvider: React.FC = ({ children }) => {
+export const AuthProvider = ({ children }: { children?: React.ReactNode }) => {
   const [user, setUser] = useState<CognitoUser | null>(null);
   const [attributes, setAttributes] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
@@ -86,12 +85,12 @@ export const AuthProvider: React.FC = ({ children }) => {
   const checkUser = useCallback(async () => {
     try {
       setLoading(true);
-      const { user: currentUser } = await currentSession();
+      const { user: currentUser, session } = await currentSession();
       const attributes = await getUserAttributes(currentUser);
+      await initAxios(session.getIdToken().getJwtToken());
       setAttributes(attributes);
       setUser(currentUser);
     } catch (error) {
-      Cookies.remove("jwtToken");
       setUser(null);
       if (!AUTH_ROUTES.includes(window.location.pathname)) {
         window.location.href = ROUTES.signIn;

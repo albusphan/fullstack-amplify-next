@@ -3,7 +3,11 @@ import { Box, Flex } from "@chakra-ui/react";
 import { Sidebar } from "./Sidebar";
 import { DashboardHeader } from "./DashboardHeader";
 
-export const DashboardLayout: React.FC = ({ children }) => {
+export const DashboardLayout = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   return (
     <Flex minH="100vh" bg="gray.10">
       <Box display={["none", "none", "none", "none", "block"]}>

@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form";
-import NextLink from "next/link";
 import { useUser } from "@/hooks/useUser";
 import { useState } from "react";
 import {
@@ -12,36 +11,32 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import { ROUTES } from "../../routes";
 import { PasswordInput } from "./PasswordInput";
 
 type FormFields = {
-  email: string;
   password: string;
+  confirmPassword: string;
+  phoneNumber: string;
 };
 
-export const SignInForm = ({
+export const NewPasswordForm = ({
   setStep,
 }: {
   setStep: (step: string) => void;
 }) => {
   const [serverError, setServerError] = useState<string | null>(null);
 
-  const { handleSubmit, register, formState } = useForm<FormFields>();
+  const { handleSubmit, register, formState, getValues } =
+    useForm<FormFields>();
 
-  const { signIn } = useUser();
+  const { handleCompleteNewPasswordChallenge } = useUser();
 
   const { errors, isSubmitting } = formState;
 
-  const onSubmit = handleSubmit(async (data) => {
-    const res = await signIn(data.email, data.password);
-
+  const onSubmit = handleSubmit(async ({ password }) => {
+    const res = await handleCompleteNewPasswordChallenge(password);
     if (res.message) {
       setStep(res.message);
-      return;
-    }
-    if (res.session) {
-      window.location.href = ROUTES.home;
       return;
     }
     if (res.error) {
@@ -53,33 +48,34 @@ export const SignInForm = ({
   return (
     <VStack as="form" onSubmit={onSubmit} spacing={6}>
       {!!serverError && <Alert status="error">{serverError}</Alert>}
-      <FormControl
-        id={"user-email"}
-        isRequired
-        isInvalid={!!errors.email?.message}
-      >
-        <FormLabel>Email</FormLabel>
-        <Input
-          size="lg"
-          placeholder="Email"
-          {...register("email", {
-            required: "Email is required",
-          })}
-        />
-        <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
-      </FormControl>
       <PasswordInput
         id="password"
-        label="Password"
+        label="New Password"
         {...register("password", { required: "Password is required" })}
         errorMessage={errors.password?.message}
       />
-
-      <Button colorScheme="blue" alignSelf="flex-end" variant="link">
-        <NextLink href={ROUTES.forgotPassword}>Forgot Password?</NextLink>
-      </Button>
+      <PasswordInput
+        id="confirmPassword"
+        label="Confirm Password"
+        {...register("confirmPassword", {
+          validate: (value) =>
+            value === getValues("password") || "Passwords do not match",
+        })}
+        errorMessage={errors.confirmPassword?.message}
+      />
+      <FormControl isRequired isInvalid={!!errors.phoneNumber?.message}>
+        <FormLabel>Phone number</FormLabel>
+        <Input
+          size="lg"
+          placeholder="Phone number"
+          {...register("phoneNumber", {
+            required: "Phone number is required",
+          })}
+        />
+        <FormErrorMessage>{errors.confirmPassword?.message}</FormErrorMessage>
+      </FormControl>
       <Button isLoading={isSubmitting} size="lg" width="100%" type="submit">
-        Sign In
+        Update password
       </Button>
     </VStack>
   );

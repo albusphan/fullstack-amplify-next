@@ -5,6 +5,7 @@ import Logo from "../components/Logo";
 import { PageHead } from "./PageHead";
 
 type Props = {
+  children: React.ReactNode;
   image?: string;
   title?: string;
 };

@@ -36,7 +36,7 @@ export const ForgotPasswordForm = () => {
         <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
       </FormControl>
 
-      <Button size="lg" isFullWidth type="submit">
+      <Button size="lg" width="100%" type="submit">
         Reset Password
       </Button>
     </VStack>

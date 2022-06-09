@@ -1,6 +1,3 @@
-import { GetServerSidePropsContext } from "next";
-
-import { checkAuth } from "@/utils";
 import { PageHead } from "@/layouts/PageHead";
 
 export default function AccountPage() {
@@ -10,8 +7,4 @@ export default function AccountPage() {
       Dashboard
     </div>
   );
-}
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  return await checkAuth(context);
 }

@@ -8,7 +8,7 @@ import { theme } from "@/theme";
 import { AuthProvider } from "@/contexts";
 import { AuthLayout, DashboardLayout } from "@/layouts";
 
-import "styles/date-picker.css";
+import "react-big-calendar/lib/css/react-big-calendar.css";
 
 type Page<P = Record<string, unknown>> = NextPage<P> & {
   getLayout?: (page: ReactNode) => ReactNode;
@@ -18,7 +18,7 @@ type Props = AppProps & {
   Component: Page;
 };
 
-const layouts: Record<string, React.FC> = {
+const layouts: Record<string, React.FC<{ children: ReactNode }>> = {
   "/": DashboardLayout,
   "/account": DashboardLayout,
   "/projects/[id]/[step]": DashboardLayout,

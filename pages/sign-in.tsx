@@ -1,14 +1,11 @@
-import { GetServerSidePropsContext } from "next";
-
 import { AuthLayout } from "../src/layouts";
-import { checkUnAuth } from "../src/utils";
 import { SignInForm } from "../src/modules/auth";
-import { Box, Heading, Text } from "@chakra-ui/react";
-import DatePicker from "@/components/DatePicker";
 import { useState } from "react";
+import { Box, Heading, Text } from "@chakra-ui/react";
+import { NewPasswordForm } from "@/modules/auth/NewPasswordForm";
 
 export default function SignIn() {
-  const [date, setDate] = useState<Date | null>(new Date());
+  const [step, setStep] = useState("init");
 
   return (
     <AuthLayout title="Sign In | 361/DXR" image="/auth-login.jpeg">
@@ -19,13 +16,11 @@ export default function SignIn() {
         <Text color="gray.400" pb="6" fontSize="lg" fontWeight="500">
           Enter your details below.
         </Text>
-        <SignInForm />
-        <DatePicker selected={date} onChange={(d) => setDate(d)} />
+        {step === "init" && <SignInForm setStep={setStep} />}
+        {step === "newPasswordRequired" && (
+          <NewPasswordForm setStep={setStep} />
+        )}
       </Box>
     </AuthLayout>
   );
-}
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  return await checkUnAuth(context);
 }

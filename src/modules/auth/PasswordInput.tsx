@@ -13,22 +13,25 @@ import {
 import { IoEyeOff, IoEye } from "react-icons/io5";
 
 interface PasswordInputProps extends InputProps {
+  id: string;
   errorMessage?: string;
+  label?: string;
 }
 
 export const PasswordInput = forwardRef<PasswordInputProps, "input">(
-  ({ errorMessage, ...rest }, ref) => {
+  ({ errorMessage, label, id, ...rest }, ref) => {
     const [show, setShow] = useState(false);
     const handleClick = () => setShow(!show);
 
     return (
-      <FormControl id="password" isRequired isInvalid={!!errorMessage}>
-        <FormLabel>Password</FormLabel>
+      <FormControl id={id} isRequired isInvalid={!!errorMessage}>
+        <FormLabel htmlFor={id}>{label}</FormLabel>
         <InputGroup size="lg">
           <Input
             pr="12"
             type={show ? "text" : "password"}
             ref={ref}
+            placeholder="Password"
             {...rest}
           />
           <InputRightElement>

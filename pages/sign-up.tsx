@@ -1,7 +1,4 @@
-import { GetServerSidePropsContext } from "next";
-
 import { AuthLayout } from "../src/layouts";
-import { checkUnAuth } from "../src/utils";
 import { SignUpForm } from "../src/modules/auth";
 import { Box, Heading, Text } from "@chakra-ui/react";
 
@@ -19,8 +16,4 @@ export default function SignUp() {
       </Box>
     </AuthLayout>
   );
-}
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  return await checkUnAuth(context);
 }

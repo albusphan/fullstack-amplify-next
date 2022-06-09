@@ -52,6 +52,7 @@ export const SignUpForm = () => {
           <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
         </FormControl>
         <PasswordInput
+          id="new-password"
           autoComplete="new-password"
           {...register("password", { required: "Password is required" })}
           errorMessage={errors.password?.message}
@@ -68,7 +69,7 @@ export const SignUpForm = () => {
         </FormControl>
       </VStack>
 
-      <Button size="lg" isFullWidth type="submit">
+      <Button size="lg" width="100%" type="submit">
         Sign Up
       </Button>
     </Box>

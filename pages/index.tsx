@@ -1,20 +1,15 @@
-import { GetServerSidePropsContext } from "next";
-import { Box, VStack } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 
-import { checkAuth } from "@/utils";
 import { PageHead } from "@/layouts/PageHead";
+import { BigCalendar } from "@/components/BigCalendar";
 
 export default function HomePage() {
   return (
-    <Box px="6">
+    <Box width="100%" px="4" h="calc(100% - 96px)">
       <PageHead title="Dashboard || 361/DXR" />
-      <VStack py="4" align="flex-start" w="100%" spacing={6}>
-        <Box alignSelf="flex-end"></Box>
-      </VStack>
+      <Box h="100%" p="4" w="100%">
+        <BigCalendar />
+      </Box>
     </Box>
   );
-}
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  return await checkAuth(context);
 }

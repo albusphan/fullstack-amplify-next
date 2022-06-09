@@ -6,7 +6,7 @@ export const UserEmail = (props: TextProps) => {
 
   return (
     <Skeleton isLoaded={!loading}>
-      <Text isTruncated fontWeight="bold" {...props}>
+      <Text fontWeight="bold" {...props}>
         {attributes.email}
       </Text>
     </Skeleton>

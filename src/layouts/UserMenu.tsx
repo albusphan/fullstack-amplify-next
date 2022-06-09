@@ -40,7 +40,7 @@ export const UserMenu = () => {
             isLoading={loading}
             onClick={onSignOut}
             variant="outline"
-            isFullWidth
+            width="100%"
           >
             Logout
           </Button>

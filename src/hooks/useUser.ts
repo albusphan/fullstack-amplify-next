@@ -3,10 +3,11 @@ import {
   AuthenticationDetails,
   CognitoUser,
   CognitoUserSession,
+  ICognitoUserSessionData,
 } from "amazon-cognito-identity-js";
-import Cookies from "js-cookie";
 
 import { AuthContext, UserPool } from "../contexts";
+import { axiosInstance, initAxios } from "@/utils/axiosInstance";
 
 export const useUser = () => {
   const context = useContext(AuthContext);
@@ -15,10 +16,62 @@ export const useUser = () => {
 
   const { user, loading, setUser, attributes } = context;
 
+  const setupMFA = (user: CognitoUser) =>
+    new Promise((resolve) => {
+      user.setUserMfaPreference(
+        {
+          PreferredMfa: true,
+          Enabled: true,
+        },
+        null,
+        function (err, result) {
+          if (err) {
+            resolve({ error: err });
+          }
+          console.log(result);
+          resolve({ result });
+        }
+      );
+    });
+
+  const handleCompleteNewPasswordChallenge = (password: string) =>
+    new Promise<{
+      session?: CognitoUserSession;
+      error?: Error;
+      message?:
+        | "newPasswordRequired"
+        | "userConfirmationNecessary"
+        | "mfaRequired";
+    }>((resolve) => {
+      if (!user) {
+        resolve({ error: new Error("User not found") });
+        return;
+      }
+      user.completeNewPasswordChallenge(
+        password,
+        { phone_number: "+84386503407", email: "test@test.com" },
+        {
+          onSuccess: async (data, userConfirmationNecessary) => {
+            if (userConfirmationNecessary) {
+              resolve({
+                message: "userConfirmationNecessary",
+              });
+            }
+
+            resolve({ session: data });
+          },
+          onFailure: (err) => {
+            resolve({ error: err });
+          },
+        }
+      );
+    });
+
   const signIn = (email: string, password: string) =>
     new Promise<{
       session?: CognitoUserSession;
       error?: Error;
+      user?: CognitoUser;
       message?:
         | "newPasswordRequired"
         | "userConfirmationNecessary"
@@ -41,15 +94,29 @@ export const useUser = () => {
               message: "userConfirmationNecessary",
             });
           }
-          const jwtToken = data.getAccessToken().getJwtToken();
-          Cookies.set("jwtToken", jwtToken);
-          setUser(newUser);
+          await initAxios(data.getIdToken().getJwtToken());
+
           resolve({ session: data });
         },
         onFailure: (err) => {
+          console.log(err, "onFailure");
+
+          if (err.code === "MFAMethodNotFoundException") {
+            newUser.setUserMfaPreference(
+              { PreferredMfa: true, Enabled: true },
+              null,
+              function (err, result) {
+                if (err) {
+                  alert(err.message || JSON.stringify(err));
+                }
+                console.log("call result " + result);
+              }
+            );
+          }
           resolve({ error: err });
         },
         newPasswordRequired: () => {
+          setUser(newUser);
           resolve({ message: "newPasswordRequired" });
         },
         mfaRequired: () => {
@@ -57,6 +124,7 @@ export const useUser = () => {
           resolve({ message: "mfaRequired" });
         },
       });
+      newUser.refreshSession;
     });
 
   const sendMFACode = (
@@ -86,7 +154,6 @@ export const useUser = () => {
       if (user) {
         user.signOut(() => {
           setUser(null);
-          Cookies.remove("jwtToken");
           resolve({ message: "success" });
         });
       } else {
@@ -94,12 +161,55 @@ export const useUser = () => {
       }
     });
 
+  const getTokens = (session: CognitoUserSession) => {
+    return {
+      idToken: session.getIdToken().getJwtToken(),
+      refreshToken: session.getRefreshToken().getToken(),
+    };
+  };
+
+  const refreshSession = async (companyId: string) =>
+    new Promise<void>((resolve, reject) => {
+      if (!user) {
+        reject({ error: new Error("Session expired, please login again") });
+        return;
+      }
+      user.getSession(
+        async (err: Error | null, session: CognitoUserSession | null) => {
+          if (!session) {
+            reject({ error: new Error("Session expired, please login again") });
+            return;
+          }
+          const { refreshToken } = getTokens(session);
+          const response = await axiosInstance.post<ICognitoUserSessionData>(
+            "/profile/refresh-session",
+            {
+              companyId,
+              refreshToken,
+            },
+            {
+              withCredentials: true,
+            }
+          );
+
+          console.log(response.data);
+
+          const newSession = new CognitoUserSession(response.data);
+
+          user.setSignInUserSession(newSession);
+          resolve();
+        }
+      );
+    });
+
   return {
-    user,
+    setupMFA,
     attributes,
     loading,
     signIn,
     signOut,
     sendMFACode,
+    handleCompleteNewPasswordChallenge,
+    refreshSession,
   };
 };
